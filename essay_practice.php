@@ -51,15 +51,13 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col sm-12">
-                    <div class="card-action">
-                      <button class="btn waves-effect waves-light" type="button" name="save_essay">Save
-                        <i class="material-icons right">save</i>
-                      </button>
-                      <button class="btn waves-effect waves-light" type="submit" name="submit_essay">Finish
-                        <i class="material-icons right">send</i>
-                      </button>
-                    </div>
+                  <div class="card-action">
+                    <button class="btn waves-effect waves-light" type="button" name="save_essay">Save
+                      <i class="material-icons right">save</i>
+                    </button>
+                    <button class="btn waves-effect waves-light" type="submit" name="submit_essay">Finish
+                      <i class="material-icons right">send</i>
+                    </button>
                   </div>
                 </div>
               </form>
