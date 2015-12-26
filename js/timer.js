@@ -21,8 +21,8 @@ function initializeClock(id, endtime) {
   function updateClock() {
     var t = getTimeRemaining(endtime);
 
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2) + 'mm';
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2) + 'ss';
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
@@ -34,7 +34,3 @@ function initializeClock(id, endtime) {
   updateClock();
   var timeinterval = setInterval(updateClock, 1000);
 }
-
-var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
-initializeClock('clockdiv-med', deadline);
-initializeClock('clockdiv-sm', deadline);

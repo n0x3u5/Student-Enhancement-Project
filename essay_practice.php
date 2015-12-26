@@ -38,7 +38,7 @@
               <p>Time to get started on your essay! Your topic for this session is <span class="red-text essay-title">"Lorem Ipsum"</span>. The timer will start as soon as you click the get started button below! Good luck!</p>
             </div>
             <div class="modal-footer">
-              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Get Started!</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="start-btn">Get Started!</a>
             </div>
           </div>
           <div class="card teal lighten-5">
@@ -51,8 +51,8 @@
                       <label for="essay-title">Essay Title</label>
                     </div>
                     <span class="card-title col s12 m6 right-align hide-on-small-only" id="clockdiv-med">
-                      <span class="minutes red-text"></span><span class="red-text">&nbsp;mm</span>
-                      <span class="seconds red-text"></span><span class="red-text">&nbsp;ss</span>
+                      <span class="minutes red-text"></span>
+                      <span class="seconds red-text"></span>
                     </span>
                     <span class="card-title col s12 hide-on-med-and-up" id="clockdiv-sm">
                       <span class="minutes red-text"></span><span class="red-text">&nbsp;mm</span>
@@ -87,6 +87,11 @@
       <script type="text/javascript">
         $('#modal1').openModal();
         $(".button-collapse").sideNav();
+        $('#start-btn').click(function() {
+          var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+          initializeClock('clockdiv-med', deadline);
+          initializeClock('clockdiv-sm', deadline);
+        });
       </script>
     </body>
   </html>
