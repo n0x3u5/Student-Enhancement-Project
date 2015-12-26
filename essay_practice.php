@@ -44,20 +44,23 @@
           <div class="card teal lighten-5">
             <div class="card-content black-text">
               <div class="row">
+                <span class="card-title col s12 m6">Topic: Lorem Ipsum</span>
+                <span class="card-title col s12 m6 right-align hide-on-small-only" id="clockdiv-med">
+                  <span class="minutes red-text"></span>
+                  <span class="seconds red-text"></span>
+                </span>
+                <span class="card-title col s12 hide-on-med-and-up" id="clockdiv-sm">
+                  <span class="minutes red-text"></span><span class="red-text">&nbsp;mm</span>
+                  <span class="seconds red-text"></span><span class="red-text">&nbsp;ss</span>
+                </span>
+              </div>
+              <div class="row">
                 <form class="col s12">
                   <div class="row">
                     <div class="input-field col s12 m6">
                       <input id="essay-title" type="text">
                       <label for="essay-title">Essay Title</label>
                     </div>
-                    <span class="card-title col s12 m6 right-align hide-on-small-only" id="clockdiv-med">
-                      <span class="minutes red-text"></span>
-                      <span class="seconds red-text"></span>
-                    </span>
-                    <span class="card-title col s12 hide-on-med-and-up" id="clockdiv-sm">
-                      <span class="minutes red-text"></span><span class="red-text">&nbsp;mm</span>
-                      <span class="seconds red-text"></span><span class="red-text">&nbsp;ss</span>
-                    </span>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
