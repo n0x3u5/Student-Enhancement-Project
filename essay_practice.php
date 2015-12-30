@@ -7,6 +7,9 @@
       <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="css/master.css" media="screen,projection" title="no title" charset="utf-8">
       <style media="screen,projection">
+        .card {
+          margin-top: -50px;
+        }
         #essay-title {
           font-size: 2em;
         }
@@ -16,24 +19,40 @@
         #clockdiv-med, #clockdiv-sm {
           font-weight: 600;
         }
-        #essay-row {
-          margin-bottom: 0px;
-        }
-        #essay-area {
+        #form-row, #essay-row, #essay-area {
           margin-bottom: 0px;
         }
         #word-counter {
-          color: teal;
           font-size: small;
+        }
+        button.card-anchor {
+          margin-right: 2em;
+          background: none!important;
+          border: none;
+          font: inherit;
+          cursor: pointer;
+          text-transform: uppercase;
+          font-weight: 400;
+          font-size: 18px;
+          color: #009688;
+        }
+        button.card-anchor:hover {
+          transition-property: color;
+          transition-duration: 0.3s;
+          transition-timing-function: ease;
+          color: #4db6ac;
+        }
+        .modal-footer a {
+          font-size: 18px;
         }
       </style>
     </head>
-    <body class="teal">
+    <body class="grey lighten-2">
       <header>
         <div class="navbar-fixed">
           <nav class="teal darken-2">
             <div class="container">
-              <a id="logo-container" href="#" class="brand-logo flow-text">AoT S.E.P.</a>
+              <a id="logo-container" href="#" class="brand-logo">AoT T.T.</a>
               <ul class="right hide-on-med-and-down">
                 <li><a href="#">Code Challenge</a></li>
                 <li class="active"><a href="essay_practice.php">Essay Practice</a></li>
@@ -52,6 +71,16 @@
         </div>
       </header>
       <main>
+        <div class="section-background teal"></div>
+        <div class="section">
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m9">
+                <h1 class="center-on-small-only white-text">Essay Practice</h1>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="container">
           <div id="modal1" class="modal">
             <div class="modal-content">
@@ -59,10 +88,10 @@
               <p>Time to get started on your essay! Your topic for this session is <span class="red-text essay-title">"Lorem Ipsum"</span>. The timer will start as soon as you click the get started button below! Good luck!</p>
             </div>
             <div class="modal-footer">
-              <a href="#!" class="modal-action modal-close waves-effect waves-green btn" id="start-btn">Get Started!</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat teal-text" id="start-btn">Get Started!</a>
             </div>
           </div>
-          <div class="card teal lighten-5">
+          <div class="card">
             <div class="card-content black-text">
               <div class="row">
                 <span class="card-title col s12 m6" id="essay-topic">Lorem Ipsum</span>
@@ -75,8 +104,8 @@
                   <span class="seconds red-text"></span>
                 </span>
               </div>
-              <div class="row">
-                <form class="col s12">
+              <div class="row" id="form-row">
+                <form class="col s12" id="essay-form">
                   <div class="row">
                     <div class="input-field col s12 m6">
                       <input id="essay-title" type="text" class="truncate">
@@ -90,20 +119,18 @@
                     </div>
                   </div>
                   <div class="row">
-                    <p id="word-counter" class="right-align col s12"><span id="display_count">0</span>/<span id="word_left">10</span></p>
-                  </div>
-                  <div class="row">
-                    <div class="card-action">
-                      <button id="save-btn" class="btn waves-effect waves-light col s12 m2" type="button" name="save_essay">Save
-                        <i class="material-icons right">save</i>
-                      </button>
-                      <button id="finish-btn" class="btn waves-effect waves-light col s12 m2" type="button" name="submit_essay">Finish
-                        <i class="material-icons right">send</i>
-                      </button>
-                    </div>
+                    <p id="word-counter" class="right-align col s12 grey-text"><span id="display_count">0</span>/<span id="word_left">10</span></p>
                   </div>
                 </form>
               </div>
+            </div>
+            <div class="card-action">
+              <button id="save-btn" class="col card-anchor waves-effect waves-teal" type="button" name="save_essay" form="essay-form">Save
+                <!-- <i class="material-icons right">save</i> -->
+              </button>
+              <button id="finish-btn" class="col card-anchor waves-effect waves-teal" type="submit" name="submit_essay" form="essay-form">Finish
+                <!-- <i class="material-icons right">send</i> -->
+              </button>
             </div>
           </div>
         </div>
@@ -119,11 +146,19 @@
             dismissible: false
           });
           $(".button-collapse").sideNav();
+          $("#essay-area").focus(function() {
+            $("#word-counter").removeClass("grey-text");
+            $("#word-counter").addClass("teal-text");
+          });
+          $("#essay-area").focusout(function() {
+            $("#word-counter").removeClass("teal-text");
+            $("#word-counter").addClass("grey-text");
+          });
           $("#save-btn").click(function() {
             Materialize.toast('Saved!', 4000);
           });
           $('#start-btn').click(function() {
-            var deadline = new Date(Date.parse(new Date()) + 1 * 60 * 1000);
+            var deadline = new Date(Date.parse(new Date()) + 30 * 60 * 1000);
             initializeClock('clockdiv-med', deadline);
             initializeClock('clockdiv-sm', deadline);
           });

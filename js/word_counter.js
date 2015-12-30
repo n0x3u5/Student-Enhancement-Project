@@ -1,4 +1,4 @@
-var lim = 10;
+var lim = 500;
 $('#display_count').text('0');
 $('#word_left').text(lim);
 $("#essay-area").on('keyup', function() {
