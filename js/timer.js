@@ -26,7 +26,7 @@ function initializeClock(id, endtime) {
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
-      document.getElementById('essay-area').disabled=true;
+      document.getElementById('essay-body').disabled=true;
       document.getElementById('essay-title').disabled=true;
     }
   }

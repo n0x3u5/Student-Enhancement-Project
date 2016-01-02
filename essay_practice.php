@@ -8,7 +8,7 @@
       <link type="text/css" rel="stylesheet" href="css/master.css" media="screen,projection" title="no title" charset="utf-8">
       <style media="screen,projection">
         .card {
-          margin-top: -50px;
+          margin-top: -25px;
         }
         #essay-title {
           font-size: 2em;
@@ -19,7 +19,7 @@
         #clockdiv-med, #clockdiv-sm {
           font-weight: 600;
         }
-        #form-row, #essay-row, #essay-area {
+        #form-row, #essay-row, #essay-body {
           margin-bottom: 0px;
         }
         #word-counter {
@@ -91,6 +91,51 @@
               <a href="#!" class="modal-action modal-close waves-effect waves-teal btn-flat teal-text" id="start-btn">Get Started!</a>
             </div>
           </div>
+          <div id="result-modal" class="modal">
+            <div class="modal-content center-align">
+              <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-blue">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="card">
             <div class="card-content black-text">
               <div class="row">
@@ -105,17 +150,17 @@
                 </span>
               </div>
               <div class="row" id="form-row">
-                <form class="col s12" id="essay-form">
+                <form action="essay_checker.php" method="post" class="col s12" id="essay-form">
                   <div class="row">
                     <div class="input-field col s12 m6">
-                      <input id="essay-title" type="text" class="truncate">
+                      <input id="essay-title" type="text" class="truncate" name="essay-title" required>
                       <label for="essay-title">Essay Title</label>
                     </div>
                   </div>
                   <div class="row" id="essay-row">
                     <div class="input-field col s12">
-                      <textarea id="essay-area" class="materialize-textarea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-                      <label for="essay-area">Your Essay</label>
+                      <textarea id="essay-body" name="essay" class="materialize-textarea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></textarea>
+                      <label for="essay-body">Your Essay</label>
                     </div>
                   </div>
                   <div class="row">
@@ -128,7 +173,7 @@
               <button id="save-btn" class="col card-anchor waves-effect waves-teal" type="button" name="save_essay" form="essay-form">Save
                 <!-- <i class="material-icons right">save</i> -->
               </button>
-              <button id="finish-btn" class="col card-anchor waves-effect waves-teal" type="submit" name="submit_essay" form="essay-form">Finish
+              <button id="finish-btn" class="col card-anchor waves-effect waves-teal" type="button" name="submit_essay" form="essay-form">Finish
                 <!-- <i class="material-icons right">send</i> -->
               </button>
             </div>
@@ -138,34 +183,7 @@
       <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
       <script type="text/javascript" src="js/materialize.min.js"></script>
       <script src="js/timer.js" charset="utf-8"></script>
-      <script src="js/spacer.js" charset="utf-8"></script>
       <script src="js/word_counter.js" charset="utf-8"></script>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          $('#modal1').openModal({
-            dismissible: false
-          });
-          $(".button-collapse").sideNav();
-          $("#essay-area").focus(function() {
-            $("#word-counter").removeClass("grey-text");
-            $("#word-counter").addClass("teal-text");
-          });
-          $("#essay-area").focusout(function() {
-            $("#word-counter").removeClass("teal-text");
-            $("#word-counter").addClass("grey-text");
-          });
-          $("#save-btn").click(function() {
-            Materialize.toast('Saved!', 4000);
-          });
-          $('#start-btn').click(function() {
-            var deadline = new Date(Date.parse(new Date()) + 30 * 60 * 1000);
-            initializeClock('clockdiv-med', deadline);
-            initializeClock('clockdiv-sm', deadline);
-          });
-          $('#finish-btn').click(function() {
-            space_checker();
-          });
-        });
-      </script>
+      <script src="js/essay_practice.js" charset="utf-8"></script>
     </body>
   </html>
