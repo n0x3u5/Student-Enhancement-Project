@@ -8,15 +8,20 @@ class Essay implements JsonSerializable {
   private $essay_title;
 
   function __construct() {
-    if (isset($_POST['essay-body'])) {
-      $this->essay_body = $_POST['essay-body'];
+    if(isset($_POST['finish-btn']) && $_POST['finish-btn'] == "submit_essay") {
+      if (isset($_POST['essay-body'])) {
+        $this->essay_body = htmlentities($_POST['essay-body']);
+      } else {
+        $this->essay_body = "ERR_SUBMIT";
+      }
+      if (isset($_POST['essay-title'])) {
+        $this->essay_title = htmlentities($_POST['essay-title']);
+      } else {
+        $this->essay_title = "ERR_SUBMIT";
+      }
     } else {
-      $this->essay_body = "No essay body received.<br>";
-    }
-    if (isset($_POST['essay-title'])) {
-      $this->essay_title = $_POST['essay-title'];
-    } else {
-      $this->essay_title = "No essay title received.<br>";
+      $this->essay_body = "ERR_SUBMIT";
+      $this->essay_title = "ERR_SUBMIT";
     }
   }
 
@@ -39,8 +44,8 @@ class Essay implements JsonSerializable {
   }
 
   function jsonSerialize() {
-    $essay_array = array("essay_title" => $this->essay_title,
-                         "essay_body"  => $this->essay_body);
+    $essay_array = array("essay_title" => html_entity_decode($this->essay_title),
+                         "essay_body"  => html_entity_decode($this->essay_body));
     return $essay_array;
   }
 }
@@ -51,8 +56,13 @@ class Essay implements JsonSerializable {
 class EssayChecker implements JsonSerializable{
 
   private $multiple_space_exists;
+  private $essay_body_is_empty;
+  private $essay_title_is_empty;
+
   function __construct() {
     $this->multiple_space_exists = 0;
+    $this->essay_body_is_empty = 0;
+    $this->essay_title_is_empty = 0;
   }
 
   function __get($attr_name) {
@@ -67,8 +77,24 @@ class EssayChecker implements JsonSerializable{
     }
   }
 
+  function emptinessChecker(Essay $essay_obj) {
+    if($essay_obj->essay_body == "") {
+      $this->essay_body_is_empty = 1;
+    } else {
+      $this->essay_body_is_empty = 0;
+    }
+
+    if($essay_obj->essay_title == "") {
+      $this->essay_title_is_empty = 1;
+    } else {
+      $this->essay_title_is_empty = 0;
+    }
+  }
+
   function jsonSerialize() {
-    $essay_corrections = array("multiple_space_exists" => $this->multiple_space_exists);
+    $essay_corrections = array("multiple_space_exists" => $this->multiple_space_exists,
+                               "essay_title_is_empty"  => $this->essay_title_is_empty,
+                               "essay_body_is_empty"   => $this->essay_body_is_empty);
     return $essay_corrections;
   }
 }
@@ -76,32 +102,9 @@ class EssayChecker implements JsonSerializable{
 
 $essay = new Essay();
 $essaychecker = new EssayChecker();
+$essaychecker->emptinessChecker($essay);
 $essaychecker->spaceChecker($essay);
 $composition_array = array("essay" => $essay,
                            "essay_checker" => $essaychecker);
 echo json_encode($composition_array);
-// if(isset($_POST['test_data'])) {
-//   echo "{
-//           \"glossary\": {
-//             \"title\": \"example glossary\",
-//         		\"GlossDiv\": {
-//               \"title\": \"S\",
-//       			  \"GlossList\": {
-//                 \"GlossEntry\": {
-//                   \"ID\": \"SGML\",
-//     					    \"SortAs\": \"SGML\",
-//     					    \"GlossTerm\": \"Standard Generalized Markup Language\",
-//     					    \"Acronym\": \"SGML\",
-//     					    \"Abbrev\": \"ISO 8879:1986\",
-//     					    \"GlossDef\": {
-//                     \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",
-//     						    \"GlossSeeAlso\": [\"GML\", \"XML\"]
-//                   },
-//     					    \"GlossSee\": \"markup\"
-//                 }
-//               }
-//             }
-//           }
-//         }";
-// }
 ?>
