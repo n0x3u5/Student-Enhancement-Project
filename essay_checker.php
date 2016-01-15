@@ -107,4 +107,60 @@ $essaychecker->spaceChecker($essay);
 $composition_array = array("essay" => $essay,
                            "essay_checker" => $essaychecker);
 echo json_encode($composition_array);
+
+
+
+
+
+//connection functions----------------------------------------------------------------
+	function make_connection() {
+		define("DB_SERVER","localhost");
+		define("DB_USER","root");
+		define("DB_PASS","rootpw");
+		define("DB_NAME","studentenhancementproject");
+	// 1. Creating a database connection_aborted
+		$connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+
+		//testing connection error
+		if(mysqli_connect_errno()) {
+			die("Database connection failed: " . mysqli_connect_error() .
+				" (" . mysqli_connect_errno() . ")"
+				);
+		}
+		return $connection;
+	}
+
+	function end_connection($connection) {
+		// 5. Close database connection
+		mysqli_close($connection);
+	}
+
+  function confirm_query($result_set){
+		global $connection;
+		if(!$result_set){
+			//failure
+			$message = "creation error";
+
+			die("database query failed.". mysqli_error($connection));
+		}
+	}
+
+  //creating or making connection
+  $connection = make_connection();
+  $std_id = "it1221";
+  $std_nm = "Dipanjan Bhattacharjee";
+  $std_dept = "IT";
+  $std_sem = "8th";
+  $std_roll = 21;
+  $db_essay_title=mysqli_real_escape_string($connection, $essay->essay_title);
+  $db_essay_body=mysqli_real_escape_string($connection, $essay->essay_body);
+
+  $query = "INSERT INTO essay_db (std_id, std_nm, std_dept, std_sem, std_roll, essay_title, essay_body) VALUES ('{$std_id}', '{$std_nm}', '{$std_dept}', '{$std_sem}', {$std_roll}, '{$db_essay_title}', '{$db_essay_body}')";
+  $result = mysqli_query($connection, $query);
+  confirm_query($result);
+  // if(mysqli_affected_rows($connection) > 0) {
+  //   echo "Successfully";
+  // }
+
+
 ?>
