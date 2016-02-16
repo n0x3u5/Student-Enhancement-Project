@@ -1,0 +1,32 @@
+.section-background {
+  position: fixed;
+  height: 228px;
+  width: 100%;
+  z-index: -999;
+  margin: 0;
+  padding: 0;
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 425px) {
+  .section-background {
+    position: fixed;
+    height: 332px;
+    width: 100%;
+    z-index: -999;
+    margin: 0;
+    padding: 0;
+  }
+}
+@media only screen and (min-device-width : 426px) and (max-device-width : 625px) {
+  .section-background {
+    position: fixed;
+    height: 266px;
+    width: 100%;
+    z-index: -999;
+    margin: 0;
+    padding: 0;
+  }
+}
+button {
+  margin-top: 5px;
+  margin-right: 5px;
+}
