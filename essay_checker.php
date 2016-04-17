@@ -58,11 +58,21 @@ class EssayChecker implements JsonSerializable{
   private $multiple_space_exists;
   private $essay_body_is_empty;
   private $essay_title_is_empty;
+  private $len;
+  private $sentence_length_exceeds;
+  private $no_stanza;
+  private $low_Limit;
+  private $string_check_low;
 
   function __construct() {
     $this->multiple_space_exists = 0;
     $this->essay_body_is_empty = 0;
     $this->essay_title_is_empty = 0;
+    $this->len = 0;
+    $this->sentence_length_exceeds=0;
+    $this->no_stanza = 0;
+    $this->low_Limit = 0;
+    $this->string_check_low="";
   }
 
   function __get($attr_name) {
@@ -91,12 +101,61 @@ class EssayChecker implements JsonSerializable{
     }
   }
 
-  function jsonSerialize() {
-    $essay_corrections = array("multiple_space_exists" => $this->multiple_space_exists,
-                               "essay_title_is_empty"  => $this->essay_title_is_empty,
-                               "essay_body_is_empty"   => $this->essay_body_is_empty);
-    return $essay_corrections;
+ //dip-----
+  function lengthChecker(Essay $essay_obj){
+    $this->len=substr_count($essay_obj->essay_body, '.');
+    $substring_check=$essay_obj->essay_body;
+    for($beg=0;$beg<$this->len;$beg++)
+    {
+      $pos=strpos($essay_obj->essay_body,".");
+      $substring_check=substr($substring_check,$beg,$pos);
+      if(str_word_count($substring_check)>14)
+      {
+        $this->sentence_length_exceeds=1;
+        break;
+      }
+      else
+      {
+        $this->sentence_length_exceeds=0;
+      }
+      $substring_left=substr($essay_obj->essay_body,$pos);
+      $essay_obj->essay_body=$substring_left;  
+    }
   }
+  function stanzaChecker(Essay $essay_obj){
+    if(substr_count($essay_obj->essay_body,"\n")<2)
+    {
+      $this->no_stanza = 1;
+    }
+    else
+    {
+     $this->no_stanza = 0; 
+    }
+  }
+  function lowLimitChecker(Essay $essay_obj){
+    $this->string_check_low=$essay_obj->essay_body;
+    $min_Limit=6;
+    if(str_word_count($this->string_check_low)<$min_Limit)
+    {
+      $this->low_Limit = 1;
+    }
+    else
+    {
+     $this->low_Limit = 0; 
+    }
+  }
+//dip
+  function jsonSerialize() {
+    $essay_corrections = array("multiple_space_exists"   => $this->multiple_space_exists,
+                               "essay_title_is_empty"    => $this->essay_title_is_empty,
+                               "essay_body_is_empty"     => $this->essay_body_is_empty, 
+                               "len"                     => $this->len,
+                               "sentence_length_exceeds" => $this->sentence_length_exceeds,
+                               "no_stanza"               => $this->no_stanza,
+                               "min_limit_for_word"      => $this->low_Limit,
+                               "essay_content"           => $this->string_check_low);
+    return $essay_corrections;
+  }  
 }
 
 
@@ -104,7 +163,10 @@ $essay = new Essay();
 $essaychecker = new EssayChecker();
 $essaychecker->emptinessChecker($essay);
 $essaychecker->spaceChecker($essay);
-$composition_array = array("essay" => $essay,
+//$essaychecker->lengthChecker($essay);
+$essaychecker->stanzaChecker($essay);
+$essaychecker->lowLimitChecker($essay);
+$composition_array = array("essay"         => $essay,
                            "essay_checker" => $essaychecker);
 echo json_encode($composition_array);
 
@@ -116,7 +178,7 @@ echo json_encode($composition_array);
 	function make_connection() {
 		define("DB_SERVER","localhost");
 		define("DB_USER","root");
-		define("DB_PASS","rootpw");
+		define("DB_PASS","");
 		define("DB_NAME","studentenhancementproject");
 	// 1. Creating a database connection_aborted
 		$connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
@@ -147,7 +209,7 @@ echo json_encode($composition_array);
 
   //creating or making connection
   $connection = make_connection();
-  $std_id = "it1221";
+  $std_id = "it1236";
   $std_nm = "Dipanjan Bhattacharjee";
   $std_dept = "IT";
   $std_sem = "8th";

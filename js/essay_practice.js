@@ -46,16 +46,41 @@ $(document).ready(function() {
             if(json.essay_checker.essay_title_is_empty === 1) {
               message = pre_msg + "<p>You seem to have not specified a title.</p>";
               if (json.essay_checker.multiple_space_exists === 0) {
-                message += "<p>Looks like there were no spacing issues in your essay. Good work!</p>" + post_msg;
+                message += "<p>Looks like there were no spacing issues in your essay. Good work!</p>" ;
               } else {
-                message += "<p>Looks like your essay had some spacing issue between words. Review your essay before submitting next time!</p>" + post_msg;
+                message += "<p>Looks like your essay had some spacing issue between words. Review your essay before submitting next time!</p>";
               }
+              if (json.essay_checker.no_stanza === 1) {
+               message += "<p>You seem to have written the whole essay in a paragraph. Please break it into paragraphs.</p>";
+              }
+              if(json.essay_checker.min_limit_for_word === 1){
+                message += "<p>Your essay is a bit short.Please practise writing more essays!</p>";
+              }
+              if(json.essay_checker.sentence_length_exceeds === 1){
+                message += "<p>Try to avoid using lengthy sentences!</p>" + post_msg;
+              }else{
+                message += "<p>You are using simple sentences. Good Job!</p>" + post_msg;
+              }
+
+
             } else {
               if (json.essay_checker.multiple_space_exists === 0) {
-                message = pre_msg + "<p>Looks like there were no spacing issues in your essay. Good work!</p>" + post_msg;
+                message = pre_msg + "<p>Looks like there were no spacing issues in your essay. Good work!</p>";
               } else {
-                message = pre_msg + "<p>Looks like your essay had some spacing issue between words. Review your essay before submitting next time!</p>" + post_msg;
+                message = pre_msg + "<p>Looks like your essay had some spacing issue between words. Review your essay before submitting next time!</p>";
               }
+              if (json.essay_checker.no_stanza === 1) {
+                 message += "<p>You seem to have written the whole essay in a paragraph. Please break it into paragraphs.</p>";
+              }
+              if(json.essay_checker.min_limit_for_word === 1){
+                message += "<p>Your essay is a bit short.Please practise writing more essays!</p>";
+              }              
+              if(json.essay_checker.sentence_length_exceeds === 1){
+                message += "<p>Try to avoid using lengthy sentences!</p>" + post_msg;
+              }else{
+                message += "<p>You are using simple sentences. Good Job!</p>" + post_msg;
+              }
+
             }
           }
       }
