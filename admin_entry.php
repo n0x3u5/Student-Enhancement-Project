@@ -16,6 +16,26 @@
       padding-left: 10px;
       padding-right: 10px;
     }
+    button.card-anchor {
+          margin-right: 2em;
+          background: none!important;
+          border: none;
+          font: inherit;
+          cursor: pointer;
+          text-transform: uppercase;
+          font-weight: 400;
+          font-size: 18px;
+          color: #009688;
+        }
+        button.card-anchor:hover {
+          transition-property: color;
+          transition-duration: 0.3s;
+          transition-timing-function: ease;
+          color: #4db6ac;
+        }
+        .modal-footer a {
+          font-size: 18px;
+        }
   </style>
 </head>
 <!-- Head Ends  -->
@@ -26,7 +46,7 @@
     <div class="navbar-fixed">
       <nav class="green darken-4">
         <div class="container">
-          <a id="logo-container" href="#" class="brand-logo">AoT T.T.</a>
+          <!-- <a id="logo-container" href="#" class="brand-logo">AoT T.T.</a> -->
           <ul class="right hide-on-med-and-down">
             <li><a href="#">Visit AoT</a></li>
             <li class="active"><a href="admin_entry.php">Admin Entry</a></li>
@@ -63,11 +83,11 @@
       <div class="card">
         <div class="card-content black-text">
           <div class="row" id="form-row">
-            <form action="#" id="topic-form">
+            <form action="admin_submit.php" id="topic-form" method="post">
         			<div class="row">
             		<div class="input-field col s12">
               		<label for="topic"><b style="color:black">Topic</b></label>
-              		<input type="text" class=" class="materialize-textarea" col s8" id="topic" required>
+              		<input type="text" class=" class="materialize-textarea" col s8" id="topic" name="topic_name" required>
             		</div>
         			</div>
         			<div class="row">
@@ -77,13 +97,13 @@
         			</div>
         			<div class="row">
             		<div class="input-field col s1">
-              		<input name="title_op1" class="with-gap" type="radio" id="radio1" required>
+              		<input name="title_op1" class="with-gap" type="radio" id="radio1" value="yes" required>
         				  <label for="radio1">Yes</label>
             		</div>
         			</div>
         			<div class="row">
             		<div class="input-field col s1">
-              		<input name="title_op1" class="with-gap" type="radio" id="radio2" required>
+              		<input name="title_op1" class="with-gap" type="radio" id="radio2" value="no"required>
         				  <label for="radio2">No</label>
             		</div>
         			</div>
@@ -94,13 +114,13 @@
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="checkbox" id="check_char" name="count_group" required>
+        					<input type="checkbox" id="check_char" name="count_group[]"  value="chars" required>
         	      	<label for="check_char">Characters Only</label>
             		</div>
-        			</div>
+        			</div>                                                                                    
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="checkbox" id="check_word" name="count_group">
+        					<input type="checkbox" id="check_word" name="count_group[]" value="words" required>
         	      	<label for="check_word">Words Only</label>
             		</div>
         			</div>
@@ -111,20 +131,20 @@
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="number" id="Char_lim" required>
+        					<input type="number" id="Char_lim" name="max_char" required>
         	      	<label for="Char_lim">Character Limit</label>
             		</div>
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="number" id="word_limit" required>
+        					<input type="number" id="word_limit" name="max_word" required>
         	      	<label for="word_limit">Word Limit</label>
             		</div>
         			</div>
         			<div class="row">
           			<div class="input-field col s10">
             			<i class="material-icons prefix">mode_edit</i>
-            			<textarea id="icon_prefix2" class="materialize-textarea" required></textarea>
+            			<textarea id="icon_prefix2" class="materialize-textarea" name="comments" required></textarea>
             			<label for="icon_prefix2"><b style="color:black">Important Points:</b></label>
           			</div>
         			</div>
@@ -132,7 +152,7 @@
           </div>
         </div>
         <div class="card-action">
-          <button id="submit-btn" class="col card-anchor waves-effect waves-green" type="button" name="submit_topic" form="topic-form">Submit</button>
+          <button id="submit-btn" class="col card-anchor waves-effect waves-green" type="submit" name="submit_topic" form="topic-form" value="pressed">Submit</button>
         </div>
       </div>
     </div>

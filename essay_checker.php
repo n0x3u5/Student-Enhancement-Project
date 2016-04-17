@@ -63,6 +63,9 @@ class EssayChecker implements JsonSerializable{
   private $no_stanza;
   private $low_Limit;
   private $string_check_low;
+  private $contains_spl_chars;
+  private $has_num_after_spc;
+  private $has_sms;
 
   function __construct() {
     $this->multiple_space_exists = 0;
@@ -73,6 +76,9 @@ class EssayChecker implements JsonSerializable{
     $this->no_stanza = 0;
     $this->low_Limit = 0;
     $this->string_check_low="";
+    $this->contains_spl_chars = 0;
+    $this->has_num_after_spc = 0;
+    $this->has_sms = 0;
   }
 
   function __get($attr_name) {
@@ -119,7 +125,7 @@ class EssayChecker implements JsonSerializable{
         $this->sentence_length_exceeds=0;
       }
       $substring_left=substr($essay_obj->essay_body,$pos);
-      $essay_obj->essay_body=$substring_left;  
+      $essay_obj->essay_body=$substring_left;
     }
   }
   function stanzaChecker(Essay $essay_obj){
@@ -129,7 +135,7 @@ class EssayChecker implements JsonSerializable{
     }
     else
     {
-     $this->no_stanza = 0; 
+     $this->no_stanza = 0;
     }
   }
   function lowLimitChecker(Essay $essay_obj){
@@ -141,21 +147,59 @@ class EssayChecker implements JsonSerializable{
     }
     else
     {
-     $this->low_Limit = 0; 
+     $this->low_Limit = 0;
+    }
+  }
+
+  function specialCharsChecker(Essay $essay_obj) {
+    if(preg_match("/[\^%&*}{@#~><>|=_+¬-]/", $essay_obj->essay_body)) {
+      $this->contains_spl_chars = 1;
+    } else {
+      $this->contains_spl_chars = 0;
+    }
+  }
+
+  function periodSpaceChecker(Essay $essay_obj) {
+    if(preg_match("/(^\d)|([!\.][\s]*\d+)/", $essay_obj->essay_body)) {
+      $this->has_num_after_spc = 1;
+    } else {
+      $this->has_num_after_spc = 0;
+    }
+  }
+
+  function smsLangChecker(Essay $essay_obj) {
+    $smsLangs ="AFAIK,AFK,NM,THNX,THX,C U,C U L8R,SWYP,SWAK,hh,CHX,SAL,WYD,WYA,SWYD,BTW,YOYO,ASAP,OMG,HAK,LOL,ROTFL,WDYMBT,LTWT,FTW,MSG,PLZ,TTYL,ILU,B/C,BCZ,TU,IDK,FYI,SMH,BFN,IMO,IMHO,BF,BFF,GF,SO,IH8U,OMFG,STFU,WTH,WTF,JK,UR,1DRFL,B4,EZ,SUM1,CU,4U,2MRO,2MORO,2MRW,ROF,LW,CY,XOXO,ANY1,NE1,NO1,2DAY,2NE,4GET,A4D,GR8,H8,KK,FRND,4M,R8,N8,NI8,GDN8,GDNI8,GDMRN9,TTYL,4Q";
+    $CompStr = $essay_obj->essay_body;
+    $len = strlen($CompStr);
+    $arr = explode(",",$smsLangs);
+    // echo "<pre>";
+    // var_dump($arr);
+    // echo "</pre>";
+    //$result = strncasecmp ( $CompStr , $smsLangs , $len );
+    foreach ($arr as $sms) {
+      //echo $sms."<br>";
+      if (stristr($CompStr, $sms)) {
+        // echo $sms;
+        // echo '  true<br>';
+        $this->has_sms = 1;
+      }
     }
   }
 //dip
   function jsonSerialize() {
     $essay_corrections = array("multiple_space_exists"   => $this->multiple_space_exists,
                                "essay_title_is_empty"    => $this->essay_title_is_empty,
-                               "essay_body_is_empty"     => $this->essay_body_is_empty, 
+                               "essay_body_is_empty"     => $this->essay_body_is_empty,
                                "len"                     => $this->len,
                                "sentence_length_exceeds" => $this->sentence_length_exceeds,
                                "no_stanza"               => $this->no_stanza,
                                "min_limit_for_word"      => $this->low_Limit,
-                               "essay_content"           => $this->string_check_low);
+                               "essay_content"           => $this->string_check_low,
+                               "contains_spl_chars"      => $this->contains_spl_chars,
+                               "has_num_after_spc"       => $this->has_num_after_spc,
+                               "has_sms"                 => $this->has_sms);
     return $essay_corrections;
-  }  
+  }
 }
 
 
@@ -166,6 +210,9 @@ $essaychecker->spaceChecker($essay);
 //$essaychecker->lengthChecker($essay);
 $essaychecker->stanzaChecker($essay);
 $essaychecker->lowLimitChecker($essay);
+$essaychecker->specialCharsChecker($essay);
+$essaychecker->periodSpaceChecker($essay);
+$essaychecker->smsLangChecker($essay);
 $composition_array = array("essay"         => $essay,
                            "essay_checker" => $essaychecker);
 echo json_encode($composition_array);
@@ -209,7 +256,7 @@ echo json_encode($composition_array);
 
   //creating or making connection
   $connection = make_connection();
-  $std_id = "it1236";
+  $std_id = "it1251";
   $std_nm = "Dipanjan Bhattacharjee";
   $std_dept = "IT";
   $std_sem = "8th";

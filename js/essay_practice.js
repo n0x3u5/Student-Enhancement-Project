@@ -57,12 +57,25 @@ $(document).ready(function() {
                 message += "<p>Your essay is a bit short.Please practise writing more essays!</p>";
               }
               if(json.essay_checker.sentence_length_exceeds === 1){
-                message += "<p>Try to avoid using lengthy sentences!</p>" + post_msg;
+                message += "<p>Try to avoid using lengthy sentences!</p>";
               }else{
-                message += "<p>You are using simple sentences. Good Job!</p>" + post_msg;
+                message += "<p>You are using simple sentences. Good Job!</p>";
               }
-
-
+              if(json.essay_checker.has_sms === 1) {
+                message += "<p>SMS language is best reserved for your phones!";
+              } else {
+                message += "<p>No SMS languages used! Marvellous!";
+              }
+              if(json.essay_checker.has_num_after_spc === 1) {
+                message += "<p>You can't put numbers at the beginning of a sentence!</p>";
+              } else {
+                message += "<p>No numbers at the beginning of a sentence! Nice!</p>";
+              }
+              if(json.essay_checker.contains_spl_chars === 1) {
+                message += "<p>Your essay contained special characters! Try to avoid them! Here are some characters to avoid: [], {}, \\, /, ^, %, &, *, #, ~, >, <, >, |, =, +, ¬, -</p>" + post_msg;
+              } else {
+                message += "<p>No special characters detected! Nicely done!</p>" + post_msg;
+              }
             } else {
               if (json.essay_checker.multiple_space_exists === 0) {
                 message = pre_msg + "<p>Looks like there were no spacing issues in your essay. Good work!</p>";
@@ -74,17 +87,31 @@ $(document).ready(function() {
               }
               if(json.essay_checker.min_limit_for_word === 1){
                 message += "<p>Your essay is a bit short.Please practise writing more essays!</p>";
-              }              
-              if(json.essay_checker.sentence_length_exceeds === 1){
-                message += "<p>Try to avoid using lengthy sentences!</p>" + post_msg;
-              }else{
-                message += "<p>You are using simple sentences. Good Job!</p>" + post_msg;
               }
-
+              if(json.essay_checker.sentence_length_exceeds === 1){
+                message += "<p>Try to avoid using lengthy sentences!</p>";
+              }else{
+                message += "<p>You are using simple sentences. Good Job!</p>";
+              }
+              if(json.essay_checker.has_sms === 1) {
+                message += "<p>SMS language is best reserved for your phones!";
+              } else {
+                message += "<p>No SMS languages used! Marvellous!";
+              }
+              if(json.essay_checker.has_num_after_spc === 1) {
+                message += "<p>You can't put numbers at the beginning of a sentence!</p>";
+              } else {
+                message += "<p>No numbers at the beginning of a sentence! Nice!</p>";
+              }
+              if(json.essay_checker.contains_spl_chars === 1) {
+                message += "<p>Your essay contained special characters. Try to avoid them! Here are some characters to avoid: [], {}, \\, /, ^, %, &, *, #, ~, >, <, >, |, =, +, ¬, -</p>" + post_msg;
+              } else {
+                message += "<p>No special characters detected! Nicely done!</p>" + post_msg;
+              }
             }
           }
-      }
-       $('#result-modal').html(message);
+        }
+        $('#result-modal').html(message);
       },
       error : function(xhr, status, errorThrown) {
         alert( "Sorry, there was a problem!" );
