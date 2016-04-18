@@ -114,13 +114,13 @@
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="checkbox" id="check_char" name="count_group[]"  value="chars" required>
+        					<input type="checkbox" id="check_char" name="count_group[]"  value="chars">
         	      	<label for="check_char">Characters Only</label>
             		</div>
-        			</div>                                                                                    
+        			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="checkbox" id="check_word" name="count_group[]" value="words" required>
+        					<input type="checkbox" id="check_word" name="count_group[]" value="words">
         	      	<label for="check_word">Words Only</label>
             		</div>
         			</div>
@@ -131,13 +131,13 @@
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="number" id="Char_lim" name="max_char" required>
+        					<input type="number" id="Char_lim" name="max_char">
         	      	<label for="Char_lim">Character Limit</label>
             		</div>
         			</div>
         			<div class="row">
             		<div class="input-field col s4">
-        					<input type="number" id="word_limit" name="max_word" required>
+        					<input type="number" id="word_limit" name="max_word">
         	      	<label for="word_limit">Word Limit</label>
             		</div>
         			</div>

@@ -17,8 +17,8 @@ class adminEntry{
 			$this->title=$_POST["topic_name"];
 			$this->comments=$_POST["comments"];
 			$this->option=$_POST["title_op1"];
-			$this->charLimit=$_POST["max_char"];
-			$this->wordLimit=$_POST["max_word"];
+			$this->charLimit=$_POST["max_char"]===""?0:$_POST["max_char"];
+			$this->wordLimit=$_POST["max_word"]===""?0:$_POST["max_word"];
 			$this->charOrWord=$_POST["count_group"];
 
 		}
@@ -82,12 +82,18 @@ class adminEntry{
 
 	echo "-------------";
 	echo $admin_qsn->title;
-	$title=$admin_qsn->title;
-	echo $title;
-	echo gettype($title);
 	echo $admin_qsn->comments;
+	echo "<hr>";
+	var_dump($admin_qsn->charLimit);
+	echo "<hr>";
 	//$query='insert into essay_topics(topic_id,topic_name,title_present,char_or_word_count,char_limit,word_limit,imp_points) values(?,'$admin_qsn->title','$admin_qsn->option','$admin_qsn->count_group',$admin_qsn->max_char,$admin_qsn->max_word,'$admin_qsn->comments')';
-	$query='insert into essay_topics(topic_id,topic_name,title_present,char_or_word_count,char_limit,word_limit,imp_points) values(NULL,"'.$admin_qsn->title.'","no","charswords",43,21,"dada asdbsad sad sad sad")';
+	if (sizeof($admin_qsn->charOrWord) === 2) {
+		$query='insert into essay_topics(topic_id,topic_name,title_present,char_or_word_count,char_limit,word_limit,imp_points) values(NULL,"'.$admin_qsn->title.'","'.$admin_qsn->option.'","charswords",'.$admin_qsn->charLimit.','.$admin_qsn->wordLimit.',"'.$admin_qsn->comments.'")';
+	} else {
+		$query='insert into essay_topics(topic_id,topic_name,title_present,char_or_word_count,char_limit,word_limit,imp_points) values(NULL,"'.$admin_qsn->title.'","'.$admin_qsn->option.'","'.$admin_qsn->charOrWord[0].'",'.$admin_qsn->charLimit.','.mysqli_real_escape_string($connection, $admin_qsn->wordLimit).',"'.$admin_qsn->comments.'")';
+	}
+
+	var_dump($query);
 
 
 	// $query='INSERT INTO essay_topics(topic_id, topic_name, title_present, char_or_word_count, char_limit,word_limit, imp_points) VALUES ([?],[$admin_qsn->title],[$admin_qsn->option],[$admin_qsn->count_group],[$admin_qsn->max_char],[$admin_qsn->max_word],[$admin_qsn->comments])';
